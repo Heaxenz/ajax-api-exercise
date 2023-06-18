@@ -16,16 +16,18 @@ const NO_IMAGE_AVAILABLE = 'https://timyurl.com/missing-tv'
 
 async function getShowsByTerm(term) {
   // ADD: Remove placeholder & make request to TVMaze search shows API.
-  const res = await axios.get('http://api.tvmaze.com/search/shows', { params: {
-    q: term
-  }})
+  const res = await axios.get('http://api.tvmaze.com/search/shows', {
+    params: {
+      q: term
+    }
+  })
   return res.data.map(va => {
     let shows = va.show;
     return {
       id: shows.id,
       name: shows.name,
       summary: shows.summary,
-      image: shows.image ? shows.image.medium:  NO_IMAGE_AVAILABLE
+      image: shows.image ? shows.image.medium : NO_IMAGE_AVAILABLE
 
     }
   })
@@ -106,19 +108,20 @@ async function getEpisodesOfShow(id) {
   const res = await axios.get(`https://api.tvmaze.com/shows/${id}/episodes`)
   return res.data.map(e => {
     return {
-    id: e.id,
-    name: e.name,
-    season: e.season,
-    number: e.number,
-    }});
+      id: e.id,
+      name: e.name,
+      season: e.season,
+      number: e.number,
+    }
+  });
 }
 /** Write a clear docstring for this function... */
 
-function populateEpisodes(episodes) { 
+function populateEpisodes(episodes) {
   $episodesList.empty();
-  for(let episode of episodes){
-    const $info = 
-    (`<li>${episode.name}(${episode.season}, ${episode.number})</li>`);
+  for (let episode of episodes) {
+    const $info =
+      (`<li>${episode.name}(${episode.season}, ${episode.number})</li>`);
     $episodesList.append($info)
   }
   $episodesArea.show();
@@ -126,9 +129,9 @@ function populateEpisodes(episodes) {
 }
 
 async function checkForEpisodesAndDisplay(e) {
-const showId = $(e.target).closest('.Show').data('show-id');
-const episodes =  await getEpisodesOfShow(showId)
-populateEpisodes(episodes);
+  const showId = $(e.target).closest('.Show').data('show-id');
+  const episodes = await getEpisodesOfShow(showId)
+  populateEpisodes(episodes);
 
 }
 
